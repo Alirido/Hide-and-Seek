@@ -10,6 +10,10 @@ namespace hideNseek
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hide and Seek!");
+            Console.ReadLine();
+            Console.WriteLine("Hide and Seek!");
+            Console.ReadLine();
         }
     }
 }
