@@ -12,18 +12,19 @@ namespace hideNseek
         private List<int> neighbors;
         private int weight;
 
-        public Node {
+        public Node() {
             this.neighbors = new List<int>();
+            this.weight = 0;
         }
 
         public int GetWeight
         {
-            return weight;
+            get { return weight; }
         }
 
         public int CountNeighbors
         {
-            return this.neighbors.size;
+            get { return this.neighbors.size; }
         }
 
         public void AddNeighbor(int x)

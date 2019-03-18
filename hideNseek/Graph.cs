@@ -14,8 +14,8 @@ namespace hideNseek
         /// <param name="size">number of vertices</param>
         public Graph(int size)
         {
-            this.nodes = new Node[size];
-            for (int i = 0; i < size; i++)
+            this.nodes = new Node[size+1];
+            for (int i = 0; i <= size; i++)
             {
                 // Assign an empty list of adjacents for each vertex
                 this.nodes[i] = new Node();
