@@ -13,14 +13,9 @@ namespace hideNseek
         static void Main(string[] args)
         {
             Console.WriteLine("Hide and Seek!");
-            Graph tes = new Graph(4);
-            tes.AddNode(1, 2);
-            tes.AddNode(1, 3);
-            tes.AddNode(2, 4);
-            foreach (int x in tes.GetSuccessors(1))
-            {
-                Console.WriteLine(x);
-            }
+            Console.WriteLine();
+            Console.WriteLine("--------------");
+            Console.WriteLine();
             Console.Write("Enter to read the text file...");
             Console.ReadLine();
             using (TextReader r = File.OpenText("test.txt"))
@@ -48,6 +43,8 @@ namespace hideNseek
             //        Console.WriteLine(line);
             //    }
             //}
+            Console.WriteLine();
+            Console.Write("Enter to exit...");
             Console.ReadLine();
         }
     }

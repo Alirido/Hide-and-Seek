@@ -60,6 +60,7 @@ namespace hideNseek
         {
             for (int i = 1; i <= this.Size; i++)
             {
+                Console.Write("Node-" + i + " neighbors: ");
                 foreach (int x in this.GetSuccessors(i))
                 {
                     Console.Write(x + " ");
