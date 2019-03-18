@@ -24,7 +24,7 @@ namespace hideNseek
 
         public int CountNeighbors
         {
-            get { return this.neighbors.size; }
+            get { return this.neighbors.Count; }
         }
 
         public void AddNeighbor(int x)
@@ -42,13 +42,9 @@ namespace hideNseek
             return neighbors.Contains(x);
         }
 
-        /// <summary>Returns the successors of a given vertex
-        /// </summary>
-        /// <param name="v">the vertex</param>
-        /// <returns>list of all successors of vertex v</returns>
-        public IList<int> GetSuccessors()
+        public List<int> GetNeighbors
         {
-            return neighbors;
+            get { return neighbors; }
         }
     }
 }

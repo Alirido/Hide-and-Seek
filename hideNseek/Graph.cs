@@ -10,7 +10,7 @@ namespace hideNseek
     {
         private Node[] nodes;
 
-        /// <summary>Constructs an empty graph of given size</summary>
+        // Constructs an empty graph of given size
         /// <param name="size">number of vertices</param>
         public Graph(int size)
         {
@@ -22,20 +22,38 @@ namespace hideNseek
             }
         }
 
-        /// <summary>Constructs a graph by given list of
-        /// child nodes (successors) for each vertex</summary>
+        // Constructs a graph by given list of
+        /// child nodes (successors) for each vertex
         /// <param name="childNodes">children for each node</param>
         public Graph(Node[] nodes)
         {
             this.nodes = nodes;
         }
 
-        /// <summary>
         /// Return the size of the graph (number of vertices)
-        /// </summary>
         public int Size
         {
             get { return this.nodes.Length; }
+        }
+
+        public void AddNode(int a, int b)
+        {
+            this.nodes[a].AddNeighbor(b);
+            this.nodes[b].AddNeighbor(a);
+        }
+
+        public void RemoveNode(int a, int b)
+        {
+            this.nodes[a].RemoveNeighbor(b);
+            this.nodes[b].RemoveNeighbor(a);
+        }
+
+        // Returns the successors of a given vertex
+        /// <param name="v">the vertex</param>
+        /// <returns>list of all successors of vertex v</returns>
+        public IList<int> GetSuccessors(int v)
+        {
+            return nodes[v].GetNeighbors;
         }
     }
 }

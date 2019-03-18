@@ -13,12 +13,10 @@ namespace hideNseek
         static void Main(string[] args)
         {
             Console.WriteLine("Hide and Seek!");
-            Graph tes(3);
-            tes[1].AddNeighbor(2);
-            tes[1].AddNeighbor(3);
-            tes[2].AddNeighbor(1);
-            tes[3].AddNeighbor(1);
-            foreach (int x in tes[1].GetSuccessors())
+            Graph tes = new Graph(3);
+            tes.AddNode(1, 2);
+            tes.AddNode(1, 3);
+            foreach (int x in tes.GetSuccessors(1))
             {
                 Console.WriteLine(x);
             }
