@@ -15,7 +15,7 @@ namespace hideNseek{
             Console.WriteLine();
             Console.WriteLine("--------------");
             Console.WriteLine();
-            Console.Write("Enter to read the text file...");
+            Console.Write("File loaded, press enter...");
             Console.ReadLine();
             using (TextReader r = File.OpenText(args[0])){
                 int x = int.Parse(r.ReadLine());
@@ -39,22 +39,21 @@ namespace hideNseek{
             foreach (int i in g.nodes[c].GetNeighbors){
                 if (g.nodes[c].HasNeighbor(i)){
                     bool[] visited = new bool[g.Size+1];
+                    List<int> lewat = new List<int>();
                     visited[c] = true;
-                    Console.Write(c+", ");
-                    dfs(i,visited);
+                    lewat.Add(c);
+                    dfs(i,visited,lewat);
                 }
             }
 
-            if (sol==1) Console.WriteLine("YA");
-            else Console.WriteLine("TIDAK");
+            if (sol==1) Console.WriteLine("\nYA");
+            else Console.WriteLine("\nTIDAK");
             Console.WriteLine();
-            Console.Write("Enter to exit...");
-            Console.ReadLine();
         }
 
-        static void dfs(int v, bool[] visited){ //pencarian jalur dengan algoritma DFS
+        static void dfs(int v, bool[] visited, List<int> lewat){ //pencarian jalur dengan algoritma DFS
             visited[v] = true;
-            Console.Write(v);
+            lewat.Add(v);
             for (int w=0; w<g.Size; w++){
                 if ((g.nodes[v].HasNeighbor(w)) && (!visited[w])){
                     if (g.nodes[v].HasNeighbor(b) || sol==1){
@@ -62,8 +61,7 @@ namespace hideNseek{
                         return;
                     }
                     if (a==0 && g.nodes[v].HasNeighbor(1)) return;
-                    Console.Write(", ");
-                    dfs(w,visited); //rekurens
+                    dfs(w,visited,lewat); //rekurens
                 }
             }
         }
@@ -82,7 +80,7 @@ namespace hideNseek{
             }
             if (ctr>=g.Size) return;
             foreach (int w in g.nodes[v].GetNeighbors){
-                setweight(w,visited);
+                if (!visited[w]) setweight(w,visited);
             }
         }
     }
