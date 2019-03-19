@@ -7,17 +7,11 @@ using System.Threading.Tasks;
 
 namespace hideNseek{
     class Program{
-        static Graph g;
+        static Graph g; //representasi graph dengan list tetangga dari simpul-simpulnya
         static int a,b,c,sol = 0, bobot = 0;
-        static int ctr = 0;
         static void Main(string[] args){
-            Console.WriteLine("Hide and Seek!");
-            Console.WriteLine();
-            Console.WriteLine("--------------");
-            Console.WriteLine();
-            Console.Write("File loaded, press enter...");
-            Console.ReadLine();
-            using (TextReader r = File.OpenText(args[0])){
+            Console.WriteLine("Hide and Seek!\n");
+            using (TextReader r = File.OpenText(args[0])){ //membuka file input yang berupa argumen program di command-line
                 int x = int.Parse(r.ReadLine());
                 g = new Graph(x);
                 string line;
@@ -26,61 +20,69 @@ namespace hideNseek{
                     int a = int.Parse(bits[0]);
                     int b = int.Parse(bits[1]);
                     g.AddNode(a, b);
-                    //Console.WriteLine(line);
                 }
             }
-            bool[] visit = new bool[g.Size+1];
-            setweight(1,visit);
+            setweight(1); //mengatur bobot graph berdasarkan jarak dari istana
             g.Print();
-            a = 1;
-            b = 6;
-            c = 5;
-        
-            foreach (int i in g.nodes[c].GetNeighbors){
-                if (g.nodes[c].HasNeighbor(i)){
-                    bool[] visited = new bool[g.Size+1];
-                    List<int> lewat = new List<int>();
-                    visited[c] = true;
-                    lewat.Add(c);
-                    dfs(i,visited,lewat);
-                }
-            }
+            a = 0;
+            b = 9;
+            c = 1;
 
-            if (sol==1) Console.WriteLine("\nYA");
+            bool[] visited = new bool[g.Size+1];
+            Queue<int> lewat = new Queue<int>(); //jalur yang dilewati
+            if (a==1) dfs1(c,visited,lewat);
+            else dfs0(c,visited,lewat);
+
+            if (sol==1) Console.WriteLine("\nYA"); //variabel sol menyatakan apakah b ketemu atau tidak
             else Console.WriteLine("\nTIDAK");
-            Console.WriteLine();
         }
 
-        static void dfs(int v, bool[] visited, List<int> lewat){ //pencarian jalur dengan algoritma DFS
+        static void dfs0(int v, bool[] visited, Queue<int> lewat){ // jalur yang menuju ke istana
             visited[v] = true;
-            lewat.Add(v);
-            for (int w=0; w<g.Size; w++){
-                if ((g.nodes[v].HasNeighbor(w)) && (!visited[w])){
-                    if (g.nodes[v].HasNeighbor(b) || sol==1){
-                        sol = 1;
-                        return;
-                    }
-                    if (a==0 && g.nodes[v].HasNeighbor(1)) return;
-                    dfs(w,visited,lewat); //rekurens
-                }
-            }
-        }
-
-        static void setweight(int v, bool[] visited){
-            visited[v] = true;
-            g.nodes[v].weight = bobot;
+            lewat.Enqueue(v);
             Console.Write(v+" ");
-            bobot++;
+            if (v==1) return;
+            if (v==b){
+                sol = 1;
+                return;
+            }
             foreach (int w in g.nodes[v].GetNeighbors){
-                if (!visited[w]){
-                    g.nodes[w].weight = bobot;
-                    visited[w] = true;
-                    ctr++;
+                if (!visited[w] && g.nodes[w].GetWeight<g.nodes[v].GetWeight){
+                    dfs0(w,visited,lewat); //rekurens
                 }
             }
-            if (ctr>=g.Size) return;
+        }
+
+        static void dfs1(int v, bool[] visited, Queue<int> lewat){ //jalur yang menjauhi istana
+            visited[v] = true;
+            lewat.Enqueue(v);
+            Console.Write(v+" ");
+            if (v==b){
+                sol = 1;
+                return;
+            }
             foreach (int w in g.nodes[v].GetNeighbors){
-                if (!visited[w]) setweight(w,visited);
+                if (!visited[w] && g.nodes[w].GetWeight>g.nodes[v].GetWeight){
+                    dfs1(w,visited,lewat); //rekurens
+                }
+            }
+        }
+
+        static void setweight(int v){ //mengatur bobot dari tiap simpul yang menyatakan jarak dari istana
+            Queue<int> antri = new Queue<int>();
+            List<int> visit = new List<int>();
+            antri.Enqueue(v);
+            visit.Add(v);
+            while (antri.Count!=0){
+                int x = antri.Dequeue();
+                bobot++;
+                foreach (int w in g.nodes[x].GetNeighbors){
+                    if (!visit.Contains(w)){
+                        antri.Enqueue(w);
+                        visit.Add(w);
+                        g.nodes[w].weight = bobot;
+                    }
+                }
             }
         }
     }
